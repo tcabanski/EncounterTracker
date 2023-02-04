@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.Shared", "source\Shared\EncounterTracker.Shared.csproj", "{6F6BB4CB-7B40-45F9-B208-F90FD58A3C64}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.Tests", "source\Tests\EncounterTracker.Tests.csproj", "{6D3752DE-3E3B-420B-82F5-FB2DA09FCE2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.Data", "source\Data\EncounterTracker.Data.csproj", "{B9381583-6954-4888-991E-92ABFA0CC3CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleData", "SampleData", "{3A71CFE1-BC00-487E-825B-3035E3B0362D}"
+	ProjectSection(SolutionItems) = preProject
+		SampleData\improved-initiative-old.json = SampleData\improved-initiative-old.json
+		SampleData\improved-initiative.json = SampleData\improved-initiative.json
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.ImprovedInitiativeImporter", "source\EncounterTracker.ImprovedInitiativeImporter\EncounterTracker.ImprovedInitiativeImporter.csproj", "{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterTracker.Web", "source\EncounterTracker.Web\EncounterTracker.Web.csproj", "{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F6BB4CB-7B40-45F9-B208-F90FD58A3C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6BB4CB-7B40-45F9-B208-F90FD58A3C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6BB4CB-7B40-45F9-B208-F90FD58A3C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6BB4CB-7B40-45F9-B208-F90FD58A3C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D3752DE-3E3B-420B-82F5-FB2DA09FCE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D3752DE-3E3B-420B-82F5-FB2DA09FCE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D3752DE-3E3B-420B-82F5-FB2DA09FCE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D3752DE-3E3B-420B-82F5-FB2DA09FCE2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9381583-6954-4888-991E-92ABFA0CC3CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9381583-6954-4888-991E-92ABFA0CC3CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9381583-6954-4888-991E-92ABFA0CC3CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9381583-6954-4888-991E-92ABFA0CC3CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {347375BF-4101-4F8A-9F2A-376198F10B7D}
+	EndGlobalSection
+EndGlobal

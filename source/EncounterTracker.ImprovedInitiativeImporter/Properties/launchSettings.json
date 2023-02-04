@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EncounterTracker.ImprovedInitiativeImporter": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\..\\..\\SampleData\\improved-initiative.json"
+    }
+  }
+}
