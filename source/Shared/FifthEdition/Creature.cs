@@ -41,10 +41,14 @@ namespace EncounterTracker.Shared.FifthEdition
         public string Description { get; set; }
         public string ImageUrl { get; set; }
 
-        public Creature(Dnd5ECreature importedCreature)
+        public Creature(Dnd5ECreature importedCreature, bool idIsName = false)
         {
             Id = importedCreature.Id;
             Name = importedCreature.Name;
+            if (idIsName)
+            {
+                Id = $"creatures/{importedCreature.Name}";
+            }
             Source = importedCreature.Source;
             Type = importedCreature.Type;
             Hp = importedCreature.Hp;
@@ -72,10 +76,14 @@ namespace EncounterTracker.Shared.FifthEdition
             ImageUrl = importedCreature.ImageUrl;
         }
 
-        public Creature(Open5E.Creature importedCreature)
+        public Creature(Open5E.Creature importedCreature, bool idIsName = false)
         {
             Id = importedCreature.Id;
             Name = importedCreature.Name;
+            if (idIsName)
+            {
+                Id = $"creatures/{importedCreature.Name}";
+            }
             Type = importedCreature.Type;
             Hp = new Hp
             {

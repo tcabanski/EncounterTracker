@@ -31,7 +31,7 @@ using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().Bulk
         if (entry.Name.StartsWith("Creatures."))
         {
             Dnd5ECreature importedCreature = JsonConvert.DeserializeObject<Dnd5ECreature>(entry.Value.ToString());
-            Creature creature = new EncounterTracker.Shared.FifthEdition.Creature(importedCreature);
+            Creature creature = new EncounterTracker.Shared.FifthEdition.Creature(importedCreature, true);
             bulkInsert.Store(creature);
             creatureCount++;
             Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");

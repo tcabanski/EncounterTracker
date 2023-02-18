@@ -37,13 +37,13 @@ using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().Bulk
     foreach (dynamic entry in importData)
     {
         EncounterTracker.Shared.Open5E.Creature importedCreature =
-                JsonConvert.DeserializeObject<EncounterTracker.Shared.Open5E.Creature>(entry.ToString());
+            JsonConvert.DeserializeObject<EncounterTracker.Shared.Open5E.Creature>(entry.ToString());
         importedCreature.Source = source;
-        
-        Creature creature = new Creature(importedCreature);
-            bulkInsert.Store(creature);
-            creatureCount++;
-            Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");
+
+        Creature creature = new Creature(importedCreature, true);
+        bulkInsert.Store(creature);
+        creatureCount++;
+        Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");
     }
 }
 
