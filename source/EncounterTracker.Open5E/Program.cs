@@ -38,8 +38,9 @@ using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().Bulk
     {
         EncounterTracker.Shared.Open5E.Creature importedCreature =
                 JsonConvert.DeserializeObject<EncounterTracker.Shared.Open5E.Creature>(entry.ToString());
-
-            Creature creature = new Creature(importedCreature, source);
+        importedCreature.Source = source;
+        
+        Creature creature = new Creature(importedCreature);
             bulkInsert.Store(creature);
             creatureCount++;
             Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");

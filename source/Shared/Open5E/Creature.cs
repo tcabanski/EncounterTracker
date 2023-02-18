@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EncounterTracker.Shared.Base;
 
 namespace EncounterTracker.Shared.Open5E
 {
-    public class Creature
+    public class Creature : CreatureBase
     {
-        public string Name { get; set; }
         public string Size { get; set; }
         public string Speed { get; set; }
-        public string Type { get; set; }
         public string Alignment { get; set; }
-        public int ArmorClass { get; set; }
-        public int HitPoints { get; set; }
-        public string HitDice { get; set; }
+        public int Armor_class { get; set; }
+        public int Hit_points { get; set; }
+        public string Hit_dice { get; set; }
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Constitution { get; set; }

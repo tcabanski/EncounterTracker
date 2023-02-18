@@ -1,4 +1,7 @@
-﻿using Raven.Client.Documents;
+﻿using EncounterTracker.Shared.Base;
+using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Conventions;
 
 namespace EncounterTracker.Data
 {
@@ -17,7 +20,16 @@ namespace EncounterTracker.Data
                 Database = databaseName
             };
 
+            documentStore.Conventions.FindCollectionName = type =>
+            {
+                if (typeof(CreatureBase).IsAssignableFrom(type))
+                    return "Creatures";
+
+                return DocumentConventions.DefaultGetCollectionName(type);
+            };
+
             documentStore.Initialize();
+            
             return documentStore;
         }
 

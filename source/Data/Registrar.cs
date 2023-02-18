@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
 using Raven.Client.Documents;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace EncounterTracker.Data
 {

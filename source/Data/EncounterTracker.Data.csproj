@@ -11,4 +11,8 @@
     <PackageReference Include="RavenDB.Client" Version="5.4.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\EncounterTracker.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

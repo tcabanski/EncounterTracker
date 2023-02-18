@@ -72,19 +72,19 @@ namespace EncounterTracker.Shared.FifthEdition
             ImageUrl = importedCreature.ImageUrl;
         }
 
-        public Creature(Open5E.Creature importedCreature, string source)
+        public Creature(Open5E.Creature importedCreature)
         {
+            Id = importedCreature.Id;
             Name = importedCreature.Name;
-            Source = source;
             Type = importedCreature.Type;
             Hp = new Hp
             {
-                Value = importedCreature.HitPoints,
-                Notes = importedCreature.HitDice
+                Value = importedCreature.Hit_points,
+                Notes = importedCreature.Hit_dice
             };
             Ac = new Ac
             {
-                Value = importedCreature.ArmorClass
+                Value = importedCreature.Armor_class
             };
             InitiativeModifier = 0;
             InitiativeAdvantage = false;
