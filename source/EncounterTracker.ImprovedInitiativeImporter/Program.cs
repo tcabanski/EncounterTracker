@@ -27,6 +27,7 @@ using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().Bulk
 {
     foreach (dynamic entry in importData)
     {
+        //todo: Should the id have the name? If so, how to handle duplicates?
         if (entry.Name.StartsWith("Creatures."))
         {
             Dnd5ECreature importedCreature = JsonConvert.DeserializeObject<Dnd5ECreature>(entry.Value.ToString());
