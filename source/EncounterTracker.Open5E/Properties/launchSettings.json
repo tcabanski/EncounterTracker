@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EncounterTracker.Open5E": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Monster manual\" ..\\..\\..\\..\\..\\SampleData\\Open5e\\monsters.json"
+    }
+  }
+}
