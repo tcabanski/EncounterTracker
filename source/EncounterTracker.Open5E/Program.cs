@@ -2,6 +2,7 @@
 
 using System.Security.Cryptography.X509Certificates;
 using Autofac;
+using EncounterTracker.Shared.FifthEdition;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Raven.Client.Documents;
@@ -18,16 +19,18 @@ if (args.Length < 2)
     return;
 }
 
-Console.WriteLine($"Importing file {args[1]} from {args[0]}");
+string source = args[0];
+string fileName = args[1];
 
-using (StreamReader r = new StreamReader(args[1]))
+Console.WriteLine($"Importing file {fileName} from {source}");
+
+using (StreamReader r = new StreamReader(fileName))
 {
     string json = r.ReadToEnd();
     importData = JsonConvert.DeserializeObject(json);
 }
 
 int creatureCount = 0;
-int encounterCount = 0;
 
 using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().BulkInsert())
 {
@@ -36,31 +39,14 @@ using (BulkInsertOperation bulkInsert = container.Resolve<IDocumentStore>().Bulk
         EncounterTracker.Shared.Open5E.Creature importedCreature =
                 JsonConvert.DeserializeObject<EncounterTracker.Shared.Open5E.Creature>(entry.ToString());
 
-
-
-        //if (entry.Name.StartsWith("Creatures."))
-        //{
-        //    Dnd5ECreature importedCreature = JsonConvert.DeserializeObject<Dnd5ECreature>(entry.Value.ToString());
-        //    Creature creature = new EncounterTracker.Shared.FifthEdition.Creature(importedCreature);
-        //    bulkInsert.Store(creature);
-        //    creatureCount++;
-        //    Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");
-        //}
-
-        //if (entry.Name.StartsWith("SavedEncounters."))
-        //{
-        //    Encounter importedEncounter = JsonConvert.DeserializeObject<Encounter>(entry.Value.ToString());
-        //    var encounter = new EncounterTracker.Shared.FifthEdition.Encounter(importedEncounter);
-        //    bulkInsert.Store(encounter);
-        //    encounterCount++;
-        //    Console.WriteLine($"Processed encounter {encounter.Id} with name {encounter.Path}/{encounter.Name} ");
-
-        //}
+            Creature creature = new Creature(importedCreature, source);
+            bulkInsert.Store(creature);
+            creatureCount++;
+            Console.WriteLine($"Processed creature {creature.Id} with name {creature.Name} ");
     }
 }
 
 Console.WriteLine($"Imported {creatureCount} creatures");
-Console.WriteLine($"Imported {encounterCount} encounters");
 
 IContainer ConfigureContainer()
 {

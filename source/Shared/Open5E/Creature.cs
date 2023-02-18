@@ -29,6 +29,7 @@ namespace EncounterTracker.Shared.Open5E
         public int? Charisma_save { get; set; }
         public int? Strength_save { get; set; }
         public int? Acrobatics { get; set; }
+        public int? Animal_handling { get; set; }
         public int? Arcana { get; set; }
         public int? Athletics { get; set; }
         public int? Deception { get; set; }
@@ -42,6 +43,7 @@ namespace EncounterTracker.Shared.Open5E
         public int? Performance { get; set; }
         public int? Persuasion { get; set; }
         public int? Religion { get; set; }
+        public int? Sleight_of_hand { get; set; }
         public int? Stealth { get; set; }
         public int? Survival { get; set; }
         public string Damage_vulnerabilities { get; set; }
@@ -50,10 +52,14 @@ namespace EncounterTracker.Shared.Open5E
         public string Condition_immunities { get; set; }
         public string Senses { get; set; }
         public string Languages { get; set; }
-        public int Challenge_rating { get; set; }
+        public string Challenge_rating { get; set; }
         public List<Ability> Special_abilities { get; set; }
         public List<Ability> Actions { get; set; }
+
+        public List<Ability> Reactions { get; set; }
+        public List<Ability> Bonus_actions { get; set; }
         public List<Ability> Legendary_actions { get; set; }
+        public List<Ability> Mythic_actions { get; set; }
     }
 
     public struct Ability
