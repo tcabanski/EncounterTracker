@@ -8,6 +8,8 @@
     {
         static async Task<int> Main(string[] args)
         {
+            var container = ConfigureContainer();
+
             var fileOption = new Option<FileInfo?>(
                 name: "--file",
                 description: "The file to read and display on the console.")
@@ -56,7 +58,7 @@
             Console.WriteLine("encounter");
         }
 
-        IContainer ConfigureContainer()
+        static IContainer ConfigureContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyModules(typeof(EncounterTracker.Data.Registrar).Assembly);
