@@ -1,6 +1,8 @@
 ﻿namespace EncounterTracker.Cli
 {
+    using Autofac;
     using System.CommandLine;
+    using System.CommandLine.Invocation;
     
     internal class Program
     {
@@ -25,37 +27,41 @@
                 name: "--light-mode",
                 description: "Background color of text displayed on the console: default is black, light mode is white.");
 
-            var rootCommand = new RootCommand("Sample app for System.CommandLine");
-            
-            var readCommand = new Command("read", "Read and display the file.")
-            {
-                fileOption,
-                delayOption,
-                fgcolorOption,
-                lightModeOption
-            };
-            rootCommand.AddCommand(readCommand);
+            var encounterCommand = new Command("encounter", "Work with encounters.");
+            var displayCreatureCommand = new Command("display", "Display a creature.");
 
-            readCommand.SetHandler(async (file, delay, fgcolor, lightMode) =>
-                {
-                    await ReadFile(file!, delay, fgcolor, lightMode);
-                },
-                fileOption, delayOption, fgcolorOption, lightModeOption);
+            var creatureCommand = new Command("creature", "Work with creatures.")
+            {
+                displayCreatureCommand
+            };
+
+            displayCreatureCommand.SetHandler(HandleCreatureDisplay);
+            encounterCommand.SetHandler(HandleEncounter);
+            var rootCommand = new RootCommand("Encounter Tracker")
+            {
+                creatureCommand,
+                encounterCommand
+            };
 
             return await rootCommand.InvokeAsync(args);
         }
 
-        internal static async Task ReadFile(
-            FileInfo file, int delay, ConsoleColor fgColor, bool lightMode)
+        static async Task HandleCreatureDisplay()
         {
-            Console.BackgroundColor = lightMode ? ConsoleColor.White : ConsoleColor.Black;
-            Console.ForegroundColor = fgColor;
-            List<string> lines = File.ReadLines(file.FullName).ToList();
-            foreach (string line in lines)
-            {
-                Console.WriteLine(line);
-                await Task.Delay(0 * line.Length);
-            };
+            Console.WriteLine("creature display");
+        }
+
+        static async Task HandleEncounter()
+        {
+            Console.WriteLine("encounter");
+        }
+
+        IContainer ConfigureContainer()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterAssemblyModules(typeof(EncounterTracker.Data.Registrar).Assembly);
+
+            return builder.Build();
         }
     }
 }
