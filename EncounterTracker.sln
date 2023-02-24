@@ -17,14 +17,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleData", "SampleData", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.ImprovedInitiativeImporter", "source\EncounterTracker.ImprovedInitiativeImporter\EncounterTracker.ImprovedInitiativeImporter.csproj", "{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.Web", "source\EncounterTracker.Web\EncounterTracker.Web.csproj", "{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterTracker.Open5E", "source\EncounterTracker.Open5E\EncounterTracker.Open5E.csproj", "{4D8B9653-EC87-46E9-8A4C-3AEE59D8A297}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Open5e", "Open5e", "{A19B3E1C-AA90-4A6B-9CCA-124072FDB56B}"
 	ProjectSection(SolutionItems) = preProject
 		SampleData\Open5e\monsters.json = SampleData\Open5e\monsters.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterTracker.Web", "source\EncounterTracker.Web\EncounterTracker.Web.csproj", "{D1CBFFBB-DA4F-49D2-9A30-5B3FD4B0A5C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterTracker.Cli", "source\EncounterTracker.Cli\EncounterTracker.Cli.csproj", "{42BA43CB-0275-4113-A8F7-AA094FBBF4BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,14 +50,18 @@ Global
 		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA2D0D5A-DC6E-4C46-9ED6-0367DE732620}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C9BACA3-ADDC-4C45-A831-EDA6ED6D48F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D8B9653-EC87-46E9-8A4C-3AEE59D8A297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D8B9653-EC87-46E9-8A4C-3AEE59D8A297}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D8B9653-EC87-46E9-8A4C-3AEE59D8A297}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D8B9653-EC87-46E9-8A4C-3AEE59D8A297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1CBFFBB-DA4F-49D2-9A30-5B3FD4B0A5C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1CBFFBB-DA4F-49D2-9A30-5B3FD4B0A5C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1CBFFBB-DA4F-49D2-9A30-5B3FD4B0A5C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1CBFFBB-DA4F-49D2-9A30-5B3FD4B0A5C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42BA43CB-0275-4113-A8F7-AA094FBBF4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42BA43CB-0275-4113-A8F7-AA094FBBF4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42BA43CB-0275-4113-A8F7-AA094FBBF4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42BA43CB-0275-4113-A8F7-AA094FBBF4BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
