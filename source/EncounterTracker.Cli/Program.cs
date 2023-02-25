@@ -1,61 +1,34 @@
-﻿namespace EncounterTracker.Cli
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+namespace EncounterTracker.Cli
 {
     using Autofac;
-    using System.CommandLine;
-    using System.CommandLine.Invocation;
-    
+    using Spectre.Console;
+    using Spectre.Console.Cli;
+
     internal class Program
     {
         static async Task<int> Main(string[] args)
         {
             var container = ConfigureContainer();
 
-            var fileOption = new Option<FileInfo?>(
-                name: "--file",
-                description: "The file to read and display on the console.")
-            { IsRequired = true };
-
-            var delayOption = new Option<int>(
-                name: "--delay",
-                description: "Delay between lines, specified as milliseconds per character in a line.",
-                getDefaultValue: () => 42);
-
-            var fgcolorOption = new Option<ConsoleColor>(
-                name: "--fgcolor",
-                description: "Foreground color of text displayed on the console.",
-                getDefaultValue: () => ConsoleColor.White);
-
-            var lightModeOption = new Option<bool>(
-                name: "--light-mode",
-                description: "Background color of text displayed on the console: default is black, light mode is white.");
-
-            var encounterCommand = new Command("encounter", "Work with encounters.");
-            var displayCreatureCommand = new Command("display", "Display a creature.");
-
-            var creatureCommand = new Command("creature", "Work with creatures.")
+            var app = new CommandApp();
+            app.Configure(c =>
             {
-                displayCreatureCommand
-            };
+                c.AddBranch("creature", creature =>
+                {
+                    creature.AddCommand<ListCreatureCommand>("list");
+                });
+                c.AddBranch("encounter", creature =>
+                {
+                    creature.AddCommand<ListEncounterCommand>("list");
+                });
 
-            displayCreatureCommand.SetHandler(HandleCreatureDisplay);
-            encounterCommand.SetHandler(HandleEncounter);
-            var rootCommand = new RootCommand("Encounter Tracker")
-            {
-                creatureCommand,
-                encounterCommand
-            };
+            });
 
-            return await rootCommand.InvokeAsync(args);
-        }
+            return await app.RunAsync(args);
 
-        static async Task HandleCreatureDisplay()
-        {
-            Console.WriteLine("creature display");
-        }
-
-        static async Task HandleEncounter()
-        {
-            Console.WriteLine("encounter");
         }
 
         static IContainer ConfigureContainer()
@@ -64,6 +37,47 @@
             builder.RegisterAssemblyModules(typeof(EncounterTracker.Data.Registrar).Assembly);
 
             return builder.Build();
+        }
+    }
+
+    public class ListCreatureCommand : AsyncCommand<ListCreatureCommand.Settings>
+    {
+        public class Settings : CommandSettings
+        {
+        }
+
+
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+        {
+            AnsiConsole.MarkupLine("[blue]list creature[/]");
+            return 0;
+        }
+    }
+
+    public class ListEncounterCommand : AsyncCommand<ListEncounterCommand.Settings>
+    {
+        public class Settings : CommandSettings
+        {
+        }
+
+
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+        {
+            var table = new Table().LeftAligned();
+
+            await AnsiConsole.Live(table)
+                .StartAsync(async ctx =>
+                {
+                    table.AddColumn("Foo");
+                    ctx.Refresh();
+                    await Task.Delay(1000);
+
+                    table.AddColumn("Bar");
+                    ctx.Refresh();
+                    await Task.Delay(1000);
+                });
+
+            return 0;
         }
     }
 }
