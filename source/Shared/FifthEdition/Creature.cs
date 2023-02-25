@@ -31,7 +31,7 @@ namespace EncounterTracker.Shared.FifthEdition
         public List<D20Check> Skills { get; set; }
         public List<string> Senses { get; set; }
         public List<string> Languages { get; set; }
-        public string Challenge { get; set; }
+        public double Challenge { get; set; }
         public List<Trait> Traits { get; set; }
         public List<Action> Actions { get; set; }
         public List<Action> BonusActions { get; set; }
@@ -70,7 +70,15 @@ namespace EncounterTracker.Shared.FifthEdition
             Skills = importedCreature.Skills;
             Senses = importedCreature.Senses;
             Languages = importedCreature.Languages;
-            Challenge = importedCreature.Challenge;
+            if (importedCreature.Challenge.Contains("/"))
+            {
+                var challengeSplit = importedCreature.Challenge.Split('/');
+                Challenge = double.Parse(challengeSplit[0]) / double.Parse(challengeSplit[1]);
+            }
+            else
+            {
+                Challenge = double.Parse(importedCreature.Challenge);
+            }
             Traits = importedCreature.Traits;
             Actions = importedCreature.Actions;
             BonusActions = importedCreature.BonusActions;
@@ -141,8 +149,17 @@ namespace EncounterTracker.Shared.FifthEdition
             {
                 $"{importedCreature.Languages}"
             };
-            Challenge = importedCreature.Challenge_rating;
-            
+
+            if (importedCreature.Challenge_rating.Contains("/"))
+            {
+                var challengeParts = importedCreature.Challenge_rating.Split('/');
+                Challenge = double.Parse(challengeParts[0]) / double.Parse(challengeParts[1]);
+            }
+            else
+            {
+                Challenge = double.Parse(importedCreature.Challenge_rating);
+            }
+
             Traits = new List<Trait>();
             if (importedCreature.Special_abilities != null)
             {
