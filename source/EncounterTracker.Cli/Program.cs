@@ -1,5 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using Dice.Grammar;
+using EncounterTracker.Shared.Base;
+using EncounterTracker.Shared.FifthEdition;
+using Raven.Client.Documents;
 
 namespace EncounterTracker.Cli
 {
@@ -7,11 +12,12 @@ namespace EncounterTracker.Cli
     using Spectre.Console;
     using Spectre.Console.Cli;
 
-    internal class Program
+    public class Program
     {
+        public static IContainer Container;
         static async Task<int> Main(string[] args)
         {
-            var container = ConfigureContainer();
+            Container = ConfigureContainer();
 
             var app = new CommandApp();
             app.Configure(c =>
@@ -44,13 +50,31 @@ namespace EncounterTracker.Cli
     {
         public class Settings : CommandSettings
         {
+            [CommandArgument(0, "<Name>")]
+            public string Name { get; set; }
         }
 
 
         public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
         {
-            AnsiConsole.MarkupLine("[blue]list creature[/]");
-            return 0;
+            try
+            {
+                var creatures = Program.Container.Resolve<IDocumentStore>().OpenSession().Query<Creature>().Search(x => x.Name, settings.Name).ToList();
+                AnsiConsole.MarkupLine($"Found {creatures.Count} creatures");
+                for (int x = 0; x < creatures.Count; x++)
+                {
+                    var highlightedName = creatures[x].Name.Replace(settings.Name, $"[yellow]{settings.Name}[/]",
+                        StringComparison.OrdinalIgnoreCase);
+                    AnsiConsole.MarkupLine($"[bold red]{x}[/] {highlightedName}");
+                }
+
+                return 0;
+            }
+            catch (Exception err)
+            {
+                AnsiConsole.WriteLine($"Error: {err}");
+                return 1;
+            }
         }
     }
 

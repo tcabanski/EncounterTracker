@@ -41,6 +41,11 @@ namespace EncounterTracker.Shared.FifthEdition
         public string Description { get; set; }
         public string ImageUrl { get; set; }
 
+        public Creature()
+        {
+
+        }
+
         public Creature(Dnd5ECreature importedCreature, bool idIsName = false)
         {
             Id = importedCreature.Id;
