@@ -23,14 +23,12 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
         var result = Roller.Roll(settings.DiceExpression);
-        AnsiConsole.MarkupLine($"{HighlightCritsForConsole(result.ToString())}");
+        AnsiConsole.MarkupLine($"{StrikeThroughDiscardedDiceForConsole(HighlightCritsForConsole(result.ToString()))}");
         return 0;
     }
 
     public string HighlightCritsForConsole(string input)
     {
-        string replacement = "replacement_text";
-
         bool foundMatches;
         do
         {
@@ -39,6 +37,23 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
             if (matches.Count > 0)
             {
                 input = input.Replace(matches[0].Value, "[bold red]" + matches[0].Value.TrimEnd('!') + "[/]");
+                foundMatches = true;
+            }
+        } while (foundMatches);
+
+        return input;
+    }
+
+    public string StrikeThroughDiscardedDiceForConsole(string input)
+    {
+        bool foundMatches;
+        do
+        {
+            foundMatches = false;
+            MatchCollection matches = Regex.Matches(input, @"\d+\*");
+            if (matches.Count > 0)
+            {
+                input = input.Replace(matches[0].Value, "[strikethrough]" + matches[0].Value.TrimEnd('*') + "[/]");
                 foundMatches = true;
             }
         } while (foundMatches);
