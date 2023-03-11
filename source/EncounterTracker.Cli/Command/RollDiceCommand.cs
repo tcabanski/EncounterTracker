@@ -22,18 +22,7 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
         var result = Roller.Roll(settings.DiceExpression);
-        var sb = new StringBuilder();
-        foreach (var roll in result.Values)
-        {
-            if (roll.DieType == DieType.Normal)
-            {
-                if (sb.Length > 0)
-                    sb.Append(", ");
-                sb.Append(roll.Value);
-            }
-        }
-        Console.WriteLine($"Result {result.Expression} ({sb})");
-        Console.WriteLine($"Total: {result.Value}");
+        Console.WriteLine($"{result}");
         return 0;
     }
 }
