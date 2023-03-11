@@ -15,8 +15,13 @@ namespace EncounterTracker.Cli
     public class Program
     {
         public static IContainer Container;
+        public static bool IsExitCommandIssued = false;
         static async Task<int> Main(string[] args)
         {
+            foreach (var arg in args)
+            {
+                Console.WriteLine(arg);
+            }
             Container = ConfigureContainer();
 
             var app = new CommandApp();
@@ -31,10 +36,22 @@ namespace EncounterTracker.Cli
                 {
                     creature.AddCommand<ListEncounterCommand>("list");
                 });
-
+                c.AddCommand<ExitCommand>("exit");
             });
 
-            return await app.RunAsync(args);
+            while (!IsExitCommandIssued)
+            {
+                await app.RunAsync(args);
+                if (!IsExitCommandIssued)
+                {
+                    Console.WriteLine();
+                    Console.Write("Command>");
+                    var input = Console.ReadLine();
+                    args = input.Trim().Split(' ');
+                }
+            }
+
+            return 0;
 
         }
 
@@ -142,6 +159,20 @@ namespace EncounterTracker.Cli
                     await Task.Delay(1000);
                 });
 
+            return 0;
+        }
+    }
+
+    public class ExitCommand : AsyncCommand<ExitCommand.Settings>
+    {
+        public class Settings : CommandSettings
+        {
+        }
+
+
+        public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+        {
+            Program.IsExitCommandIssued = true;
             return 0;
         }
     }
