@@ -25,7 +25,13 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
     {
         var result = Roller.Roll(settings.DiceExpression);
         AnsiConsole.MarkupLine(StrikeThroughDiscardedDice(HighlightCrits(result.ToString(), "[bold red]", "[/]"), "[strikethrough]", "[/]"));
-        await ClipboardService.SetTextAsync(HighlightCrits(StrikeThroughDiscardedDice(result.ToString(), "~~", "~~"), "**", "**"));
+
+        string markdownText = HighlightCrits(StrikeThroughDiscardedDice(result.ToString(), "~~", "~~"), "**", "**");
+        await ClipboardService.SetTextAsync(markdownText);
+        if (Program.DiscordConnected)
+        {
+            await Program.DiscordChannel.SendMessageAsync(markdownText);
+        }
         return 0;
     }
 
