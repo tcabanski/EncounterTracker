@@ -6,6 +6,7 @@ using EncounterTracker.Shared.FifthEdition;
 using Raven.Client.Documents;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using TextCopy;
 
 namespace EncounterTracker.Cli.Command;
 
@@ -23,11 +24,12 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
         var result = Roller.Roll(settings.DiceExpression);
-        AnsiConsole.MarkupLine($"{StrikeThroughDiscardedDiceForConsole(HighlightCritsForConsole(result.ToString()))}");
+        AnsiConsole.MarkupLine(StrikeThroughDiscardedDice(HighlightCrits(result.ToString(), "[bold red]", "[/]"), "[strikethrough]", "[/]"));
+        await ClipboardService.SetTextAsync(HighlightCrits(StrikeThroughDiscardedDice(result.ToString(), "~~", "~~"), "**", "**"));
         return 0;
     }
 
-    public string HighlightCritsForConsole(string input)
+    public string HighlightCrits(string input, string replaceFront, string replaceBack)
     {
         bool foundMatches;
         do
@@ -36,7 +38,7 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
             MatchCollection matches = Regex.Matches(input, @"\d+!");
             if (matches.Count > 0)
             {
-                input = input.Replace(matches[0].Value, "[bold red]" + matches[0].Value.TrimEnd('!') + "[/]");
+                input = input.Replace(matches[0].Value, replaceFront + matches[0].Value.TrimEnd('!') + replaceBack);
                 foundMatches = true;
             }
         } while (foundMatches);
@@ -44,16 +46,16 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
         return input;
     }
 
-    public string StrikeThroughDiscardedDiceForConsole(string input)
+    public string StrikeThroughDiscardedDice(string input, string replaceFront, string replaceBack)
     {
         bool foundMatches;
         do
         {
             foundMatches = false;
-            MatchCollection matches = Regex.Matches(input, @"\d+\*");
+            MatchCollection matches = Regex.Matches(input, @"\d+\*{1}");
             if (matches.Count > 0)
             {
-                input = input.Replace(matches[0].Value, "[strikethrough]" + matches[0].Value.TrimEnd('*') + "[/]");
+                input = input.Replace(matches[0].Value, replaceFront + matches[0].Value.TrimEnd('*') + replaceBack);
                 foundMatches = true;
             }
         } while (foundMatches);
