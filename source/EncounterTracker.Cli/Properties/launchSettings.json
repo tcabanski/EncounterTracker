@@ -2,7 +2,7 @@
   "profiles": {
     "EncounterTracker.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "creature list xorn"
+      "commandLineArgs": "-h"
     }
   }
 }
