@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using Autofac;
 using Dice;
 using EncounterTracker.Shared.FifthEdition;
@@ -22,7 +23,26 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {
         var result = Roller.Roll(settings.DiceExpression);
-        Console.WriteLine($"{result}");
+        AnsiConsole.MarkupLine($"{HighlightCritsForConsole(result.ToString())}");
         return 0;
+    }
+
+    public string HighlightCritsForConsole(string input)
+    {
+        string replacement = "replacement_text";
+
+        bool foundMatches;
+        do
+        {
+            foundMatches = false;
+            MatchCollection matches = Regex.Matches(input, @"\d+!");
+            if (matches.Count > 0)
+            {
+                input = input.Replace(matches[0].Value, "[bold red]" + matches[0].Value.TrimEnd('!') + "[/]");
+                foundMatches = true;
+            }
+        } while (foundMatches);
+
+        return input;
     }
 }
