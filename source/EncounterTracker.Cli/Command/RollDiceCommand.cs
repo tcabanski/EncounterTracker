@@ -28,7 +28,7 @@ public class RollDiceCommand : AsyncCommand<RollDiceCommand.Settings>
 
         string markdownText = HighlightCrits(StrikeThroughDiscardedDice(result.ToString(), "~~", "~~"), "**", "**");
         await ClipboardService.SetTextAsync(markdownText);
-        if (Program.DiscordConnected)
+        if (Program.IsDiscordConnected)
         {
             await Program.DiscordChannel.SendMessageAsync(markdownText);
         }

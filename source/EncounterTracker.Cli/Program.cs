@@ -21,7 +21,7 @@ namespace EncounterTracker.Cli
         public static bool IsExitCommandIssued = false;
         public static DiscordSocketClient DiscordClient;
         public static ILogger Logger;
-        public static bool DiscordConnected;
+        public static bool IsDiscordConnected;
         public static ISocketMessageChannel DiscordChannel;
         static async Task<int> Main(string[] args)
         {
@@ -74,6 +74,10 @@ namespace EncounterTracker.Cli
             }
             finally
             {
+                if (IsDiscordConnected)
+                {
+                    await DiscordChannel.SendMessageAsync("Encounter tracker disconnected.");
+                }
                 await DiscordClient.StopAsync();
             }
 

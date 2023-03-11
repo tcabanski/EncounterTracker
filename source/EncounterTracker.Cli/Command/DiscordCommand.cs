@@ -32,7 +32,7 @@ public class DiscordCommand : AsyncCommand<DiscordCommand.Settings>
         if (channel != null)
         {
             await channel.SendMessageAsync("Encounter tracker connected.");
-            Program.DiscordConnected = true;
+            Program.IsDiscordConnected = true;
             Program.DiscordChannel = channel;
         }
         return 0;
