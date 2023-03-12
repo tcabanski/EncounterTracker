@@ -31,6 +31,9 @@ namespace EncounterTracker.Cli
             LoadEnv(".env");
             Container = ConfigureContainer();
             
+            //TODO: ideally, we'd be using DI here, but the Spectre library assumes RunAsync will be called only once.
+            //Therefore, their DI support is broken when looping like this app does.
+            //At some point it would be nice to fix that.
             var app = new CommandApp();
             app.Configure(c =>
             {
