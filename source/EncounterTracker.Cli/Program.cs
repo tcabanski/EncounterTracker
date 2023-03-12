@@ -42,11 +42,16 @@ namespace EncounterTracker.Cli
                 c.AddCommand<DiscordCommand>("discord").WithAlias("d").WithData(Container.Resolve<DiscordSocketClient>());
                 c.AddBranch("creature", creature =>
                 {
-                    creature.AddCommand<ListCreatureCommand>("list");
+                    creature.AddCommand<EncounterTracker.Cli.Command.Creature.List>("list");
                 }).WithAlias("c");
-                c.AddBranch("encounter", creature =>
+                c.AddBranch("encounter", encounter =>
                 {
-                    creature.AddCommand<ListEncounterCommand>("list");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.List>("list");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.Load>("load");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.Save>("save");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.Start>("start");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.Next>("next");
+                    encounter.AddCommand<EncounterTracker.Cli.Command.Encounter.End>("end");
                 }).WithAlias("e");
                 c.AddCommand<RollDiceCommand>("roll").WithAlias("r");
                 c.AddCommand<ExitCommand>("exit");

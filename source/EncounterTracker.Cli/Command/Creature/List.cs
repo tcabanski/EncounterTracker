@@ -4,21 +4,21 @@ using Raven.Client.Documents;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace EncounterTracker.Cli.Command;
+namespace EncounterTracker.Cli.Command.Creature;
 
-public class ListCreatureCommand : AsyncCommand<ListCreatureCommand.Settings>
+public class List : AsyncCommand<List.Settings>
 {
     public class Settings : CommandSettings
     {
         [CommandArgument(0, "<Name>")]
         public string Name { get; set; }
-            
+
         //syntax is c <min> or c <min>:<max>
         [CommandOption("-c|--challenge-rating")]
         public string? Cr { get; set; }
         [CommandOption("--sortCr")]
         public bool SortCr { get; set; }
-            
+
         [CommandOption("--sortDesc")]
         public bool SortDesc { get; set; }
 
@@ -30,16 +30,16 @@ public class ListCreatureCommand : AsyncCommand<ListCreatureCommand.Settings>
     {
         try
         {
-            var creaturesSearch = Program.Container.Resolve<IDocumentStore>().OpenSession().Query<Creature>()
+            var creaturesSearch = Program.Container.Resolve<IDocumentStore>().OpenSession().Query<Shared.FifthEdition.Creature>()
                 .Search(x => x.Name, settings.Name);
             if (settings.Cr != null)
             {
                 var cr = settings.Cr.Split(':');
-                creaturesSearch = cr.Length == 2 ? creaturesSearch.Filter(x => x.Challenge >= double.Parse(cr[0]) && x.Challenge <= double.Parse(cr[1])) : 
+                creaturesSearch = cr.Length == 2 ? creaturesSearch.Filter(x => x.Challenge >= double.Parse(cr[0]) && x.Challenge <= double.Parse(cr[1])) :
                     creaturesSearch.Filter(x => x.Challenge >= double.Parse(settings.Cr));
             }
 
-            IList<Creature> creatures = new List<Creature>();
+            IList<Shared.FifthEdition.Creature> creatures = new List<Shared.FifthEdition.Creature>();
             if (settings.SortCr)
             {
                 if (settings.SortDesc)
