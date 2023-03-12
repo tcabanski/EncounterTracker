@@ -12,6 +12,9 @@ using Discord;
 using Discord.WebSocket;
 using System.Text;
 using NLog;
+using EncounterTracker.Data;
+using EncounterTracker.Shared.DiscordClient;
+using Raven.Client.Documents;
 
 namespace EncounterTracker.Cli
 {
@@ -19,7 +22,6 @@ namespace EncounterTracker.Cli
     {
         public static IContainer Container;
         public static bool IsExitCommandIssued = false;
-        public static DiscordSocketClient DiscordClient;
         public static ILogger Logger;
         public static bool IsDiscordConnected;
         public static ISocketMessageChannel DiscordChannel;
@@ -28,22 +30,13 @@ namespace EncounterTracker.Cli
             Logger = LogManager.GetCurrentClassLogger();
             LoadEnv(".env");
             Container = ConfigureContainer();
-            DiscordClient = new DiscordSocketClient();
-
-            DiscordClient.Log += Log;
-
-            var token = Environment.GetEnvironmentVariable("DISCORD_TOKEN");
-
-
-            await DiscordClient.LoginAsync(Discord.TokenType.Bot, token);
-            await DiscordClient.StartAsync();
-
+            
             var app = new CommandApp();
             app.Configure(c =>
             {
                 c.Settings.CaseSensitivity = CaseSensitivity.None;
                 c.Settings.ApplicationName = "";
-                c.AddCommand<DiscordCommand>("discord").WithAlias("d").WithData(DiscordClient);
+                c.AddCommand<DiscordCommand>("discord").WithAlias("d").WithData(Container.Resolve<DiscordSocketClient>());
                 c.AddBranch("creature", creature =>
                 {
                     creature.AddCommand<ListCreatureCommand>("list");
@@ -78,7 +71,7 @@ namespace EncounterTracker.Cli
                 {
                     await DiscordChannel.SendMessageAsync("Encounter tracker disconnected.");
                 }
-                await DiscordClient.StopAsync();
+                await Container.Resolve<DiscordSocketClient>().StopAsync();
             }
 
             return 0;
@@ -89,14 +82,9 @@ namespace EncounterTracker.Cli
         {
             var builder = new ContainerBuilder();
             builder.RegisterAssemblyModules(typeof(EncounterTracker.Data.Registrar).Assembly);
+            builder.Register(c => DiscordClientHolder.DiscordClient).As<DiscordSocketClient>().SingleInstance();
 
             return builder.Build();
-        }
-
-        static Task Log(LogMessage msg)
-        {
-            Logger.Info(msg.ToString());
-            return Task.CompletedTask;
         }
 
         static void LoadEnv(string filePath)
